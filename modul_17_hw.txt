@@ -1,0 +1,124 @@
+//👀 NO: 1
+Laravel's query builder is a feature that allows developers to build database queries using a fluent, chainable interface in PHP. It provides a simple and elegant way to interact with databases by abstracting the underlying SQL syntax and providing a more expressive and intuitive API.
+
+Traditionally, when working with databases, developers had to manually write SQL statements to perform CRUD (Create, Read, Update, Delete) operations. This process could be error-prone, time-consuming, and often resulted in code that was difficult to read and maintain.
+
+Laravel's query builder simplifies this process by providing a set of methods that represent different parts of a SQL query, such as selecting columns, filtering rows, joining tables, ordering results, and more. These methods can be chained together in a fluent manner, allowing developers to construct complex queries using a readable and concise syntax.
+
+Here's an example to illustrate how Laravel's query builder works:
+$users = DB::table('users')
+            ->select('id', 'name')
+            ->where('age', '>', 18)
+            ->orderBy('name', 'asc')
+            ->get();
+
+
+//👀 NO:2
+$posts = DB::table('posts')
+            ->select('excerpt', 'description')
+            ->get();
+
+print_r($posts);
+
+ //👀 NO:3
+$result=DB::table('posts')-select('post')->distinct()->get();
+
+
+ //👀 NO:4
+$posts = DB::table('posts')
+            ->where('id', 2)
+            ->first();
+print_r($posts);
+
+
+ //👀 NO:5
+$posts =DB::table('post')->where('id', 2)->pluck('description');
+print_r($posts);
+
+
+ //👀 NO:6
+frist() : The frist() methode just frist colum display
+find() : The find() methode any colum display but find() methode between id select
+
+//👀👀 NO:7
+$posts =DB::table('post')->pluck('title');
+print_r($posts);
+
+//👀👀 NO:8
+ $posts = DB::table('posts')->upsert([
+            [
+                'user_id' => 1,
+                'title' => 'X',
+                'slug' => 'x',
+                'excerpt' => 'Updated excerpt ',
+                'description' => 'Updated description',
+                'is_published' => true,
+                'min_to_read' => 2,
+            ]);
+
+//👀 NO:9
+$result = DB::table('posts')
+                ->where('id', 2)
+                ->update([
+                    'excerpt' => 'Laravel 10',
+                    'description' => 'Laravel 10'
+                ]);
+
+echo "Affected rows: " . $result;
+
+
+//👀 NO:10
+ DB::table('posts')
+            ->where('id',2)
+            ->delete();
+
+
+//👀 NO:11
+
+ //Sum
+        DB::table('posts')->sum('min_to_read');
+
+// Average
+        DB::table('posts')->avg('min_to_read');
+        DB::table('posts')->where('is_published', true)->avg('min_to_read');
+
+// Max
+        DB::table('posts')->where('is_published', true)->max('min_to_read');
+
+ //Min
+        DB::table('posts')->where('is_published', true)->min('min_to_read');
+
+
+//👀 NO:12
+whereNot()
+        DB::table('posts')->whereNot('min_to_read', 5)->get();
+        DB::table('posts')->whereNot('min_to_read', '>', 1)->get();
+
+
+//👀 NO:13
+
+// exists()
+        if(DB::table('posts')->where('id', 343543)->exists()) {
+            echo 'Woohoo, I found a match';
+        } else {
+            echo 'Ahh, I have not found a match';
+        }
+
+// doesntExist()
+        if(DB::table('posts')->where('id', 343543)->doesntExist()) {
+            echo 'Ahh, I have not found a match';
+        } else {
+            echo 'Woohoo, I found a match';
+        }
+
+//👀 NO:14
+        $posts = DB::table('posts')->whereBetween('min_to_read', [1, 5])->get();
+	print_r($posts);
+
+
+//👀 NO:15
+$affectedRows = DB::table('posts')
+                ->where('id', 3)
+                ->increment('min_to_read');
+
+echo "Number of affected rows: " . $affectedRows;
